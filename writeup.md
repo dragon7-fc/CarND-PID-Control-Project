@@ -9,6 +9,7 @@
 [image5]: ./images/build_all.png "build all"
 [image6]: ./images/run_as.png "run as"
 [image7]: ./images/simulator.png "simulator"
+[image8]: ./images/pid.png "PID"
 
 **PID Control Project**
 
@@ -90,10 +91,21 @@ docker run --rm --name pid \
 
 6. Launch simulator
 
-    ![alt text][image7]
+![alt text][image7]
 
 ---
 ## Implementation
+
+![alt text][image8]
+
+---
+## Reflection
+
+### Describe the effect each of the P, I, D components had in your implementation.
+
+
+
+### Describe how the final hyperparameters were chosen.
 
 
 
