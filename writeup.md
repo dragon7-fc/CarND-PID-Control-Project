@@ -10,6 +10,7 @@
 [image6]: ./images/run_as.png "run as"
 [image7]: ./images/simulator.png "simulator"
 [image8]: ./images/pid.png "PID"
+[image9]: ./images/effect.png "effect"
 
 **PID Control Project**
 
@@ -94,16 +95,24 @@ docker run --rm --name pid \
 ![alt text][image7]
 
 ---
-## Implementation
-
-![alt text][image8]
-
----
 ## Reflection
 
 ### Describe the effect each of the P, I, D components had in your implementation.
 
+![alt text][image8]
 
+![alt text][image9]
+
+|              | P Controller               | PD Controller            | PID Controller         | Twiddle PID Controller          |
+|:------------:|:--------------------------:|:------------------------:|:----------------------:|:-------------------------------:|
+| effect       | marginally stable          | solve overshoot          | solve systematic bias  | parameters (P,I,D) optimization |
+| side effect  | overshoot                  | systematic bias          |                        |                                 |
+
+1. P Component
+
+2. D Component
+
+3. I Component
 
 ### Describe how the final hyperparameters were chosen.
 
