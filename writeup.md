@@ -11,6 +11,9 @@
 [image7]: ./images/simulator.png "simulator"
 [image8]: ./images/pid.png "PID"
 [image9]: ./images/effect.png "effect"
+[image10]: ./images/p.png "p"
+[image11]: ./images/pd.png "pd"
+[image12]: ./images/i.png "i"
 
 **PID Control Project**
 
@@ -106,13 +109,19 @@ docker run --rm --name pid \
 |              | P Controller               | PD Controller            | PID Controller         | Twiddle PID Controller          |
 |:------------:|:--------------------------:|:------------------------:|:----------------------:|:-------------------------------:|
 | effect       | marginally stable          | solve overshoot          | solve systematic bias  | parameters (P,I,D) optimization |
-| side effect  | overshoot                  | systematic bias          |                        |                                 |
+| side effect  | overshoot, systematic bias | systematic bias          |                        |                                 |
 
 1. P Component
 
+![alt text][image10]
+
 2. D Component
 
+![alt text][image11]
+
 3. I Component
+
+![alt text][image12]
 
 ### Describe how the final hyperparameters were chosen.
 
