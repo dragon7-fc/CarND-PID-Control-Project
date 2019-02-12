@@ -102,32 +102,49 @@ docker run --rm --name pid \
 
 ### Describe the effect each of the P, I, D components had in your implementation.
 
+The PID algorithm is implemented in line 24~26 and 33 of PID.cpp as below.
+
+``` c++
+  d_error = cte - p_error;
+  p_error = cte;
+  i_error += cte;
+```
+
+``` c++
+  -Kp * p_error - Kd * d_error - Ki * i_error;
+```
+
 ![alt text][image8]
 
-![alt text][image9]
+1. P Component
+
+From the formula, we can found that the P component control how the Cross Track Error (CTE), i.e. how far from road middle, affect the steering angle. If we got larger Kp, the steering angle would be more affected by CTE. If the car is far away from middle, this would be helpful. Because it need more steering angle to adjust to return back to center. But if the car is close to the middle. larger Kp would let the car overshoot or oscillate more quickly. However, if Kp is too small, it would not sensitive to land curvature.
+
+![alt text][image10]
+
+2. D Component
+
+Besides P component, we added one D, i.e. differential, part to the formula to let the steering angle more smooth. Consider the car gradually leaves the middle, the would cause a positive differential. So we would get more steering angle to return back to center. IF the car is gradually back to middle, we got negative differential, and smaller steering angle. Make sense. But if Kd too large, it would make the steering angle change too rough. However, if the Kd is too small it can't solve the overshoot problem.
+
+![alt text][image11]
+
+3. I Component
+
+In this portion, we add an I, i.e. integral, part to the equation. It looks like we compensate all previous error. If Ki is close to 1, the steering angle will sensitive to oscillation and can't go for high speed. If Ki close to 0, the car will tend to drift to one side of the lane for a long period of time.
+
+![alt text][image12]
 
 |              | P Controller               | PD Controller            | PID Controller         | Twiddle PID Controller          |
 |:------------:|:--------------------------:|:------------------------:|:----------------------:|:-------------------------------:|
 | effect       | marginally stable          | solve overshoot          | solve systematic bias  | parameters (P,I,D) optimization |
 | side effect  | overshoot, systematic bias | systematic bias          |                        |                                 |
 
-1. P Component
-
-![alt text][image10]
-
-2. D Component
-
-![alt text][image11]
-
-3. I Component
-
-![alt text][image12]
+![alt text][image9]
 
 ### Describe how the final hyperparameters were chosen.
 
+The final hyperparameter were chosen as below. Manually tuned these parameters with the base values gotten from PID Control lesson. Followed the procedure from P to D then I to tune these parameters. During P parameter tuning, I set D and I as zero. During D tuning, fixed P and let I as zero. Finally during I tuning, fixed P and D. Because the values got from the lesson almost already workable. I haven't implemented Twiddle algorithm to find the optimized parameters. I found that the result run from Udacity workspace and Mac is a little different, so I made some modification on these hyperparameters.
 
-
----
-## Result
-
-
+| coefficient | P        | I        | D        |
+|-------------|----------|----------|----------|
+| value       | 0.2      | 0.001    | 3        |
