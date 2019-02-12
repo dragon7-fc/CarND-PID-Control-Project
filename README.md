@@ -1,98 +1,150 @@
-# CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
+# **PID Control**
+
+[//]: # (Image References)
+
+[image1]: ./images/import.jpg "import"
+[image2]: ./images/existing_project.jpg "existing project"
+[image3]: ./images/select_project.png "select project"
+[image4]: ./images/final.png "final"
+[image5]: ./images/build_all.png "build all"
+[image6]: ./images/run_as.png "run as"
+[image7]: ./images/simulator.png "simulator"
+[image8]: ./images/pid.png "PID"
+[image9]: ./images/effect.png "effect"
+[image10]: ./images/p.png "p"
+[image11]: ./images/pd.png "pd"
+[image12]: ./images/i.png "i"
+
+**PID Control Project**
+
+## Goals
+In this project you'll revisit the lake race track from the Behavioral Cloning Project. This time, however, you'll implement a PID controller in C++ to maneuver the vehicle around the track!
+
+The simulator will provide you the cross track error (CTE) and the velocity (mph) in order to compute the appropriate steering angle.
+
+One more thing. The speed limit has been increased from 30 mph to 100 mph. Get ready to channel your inner Vin Diesel and try to drive __SAFELY__ as fast as possible! 
+
+__NOTE__: you don't have to meet a minimum speed to pass.
 
 ---
-
 ## Dependencies
 
-* cmake >= 3.5
- * All OSes: [click here for installation instructions](https://cmake.org/install/)
-* make >= 4.1(mac, linux), 3.81(Windows)
-  * Linux: make is installed by default on most Linux distros
-  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
-  * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
-* gcc/g++ >= 5.4
-  * Linux: gcc / g++ is installed by default on most Linux distros
-  * Mac: same deal as make - [install Xcode command line tools]((https://developer.apple.com/xcode/features/)
-  * Windows: recommend using [MinGW](http://www.mingw.org/)
-* [uWebSockets](https://github.com/uWebSockets/uWebSockets)
-  * Run either `./install-mac.sh` or `./install-ubuntu.sh`.
-  * If you install from source, checkout to commit `e94b6e1`, i.e.
+* [simulator](https://github.com/udacity/self-driving-car-sim/releases)
+
+## Environment Setup
+
+1. Open Eclipse IDE
+
+__Linux__:
+```
+docker run --rm --name pid \
+    --net=host -e DISPLAY=$DISPLAY \
+    -v $HOME/.Xauthority:/root/.Xauthority \
+    dragon7/carnd-pid-control-project
+```
+
+__Mac__:
+```
+socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"
+
+docker run --rm --name pid \
+    -e DISPLAY=[IP_ADDRESS]:0 \
+    -p 4567:4567 \
+    dragon7/carnd-pid-control-project
+```
+
+2. Import the project into Eclipse
+
+    1. Open Eclipse.
+    2. Import project using Menu `File > Import`
+    ![alt text][image1]
+    3. Select `General > Existing projects into workspace`
+    ![alt text][image2]
+    4. **Browse** `/root/workspace/CarND-PID-Control-Project/build` and select the root build tree directory. Keep "Copy projects into workspace" unchecked.
+    ![alt text][image3]
+    5. Now you should have a fully functional eclipse project
+    ![alt text][image4]
+
+3. Code Style
+
+    1. From Eclipse go to `Window > Preferences > C/C++ > Code Style > Formatter`
+    2. Click Import
+    3. Select `/root/workspace/eclipse-cpp-google-style.xml`
+    4. Click Ok
+
+4. Build
+
+    * Select `Project -> Build All`
+    ![alt text][image5]
+
+    __OPTIONAL__: Build on command line
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
-    cd uWebSockets
-    git checkout e94b6e1
+    cd /root/workspace/CarND-PID-Control-Project/build
+    make
     ```
-    Some function signatures have changed in v0.14.x. See [this PR](https://github.com/udacity/CarND-MPC-Project/pull/3) for more details.
-* Simulator. You can download these from the [project intro page](https://github.com/udacity/self-driving-car-sim/releases) in the classroom.
 
-Fellow students have put together a guide to Windows set-up for the project [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/files/Kidnapped_Vehicle_Windows_Setup.pdf) if the environment you have set up for the Sensor Fusion projects does not work for this project. There's also an experimental patch for windows in this [PR](https://github.com/udacity/CarND-PID-Control-Project/pull/3).
+5. Run
 
-## Basic Build Instructions
+    * `Right click Project -> Run as -> 1 Local C++ Application`
+    ![alt text][image6]
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+    __OPTIONAL__: Run on command line
+    
+    `./pid`
 
-Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
-## Editor Settings
+6. Launch simulator
 
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
+![alt text][image7]
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+---
+## Reflection
 
-## Code Style
+### Describe the effect each of the P, I, D components had in your implementation.
 
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
+The PID algorithm is implemented in line 24~26 and 33 of PID.cpp as below.
 
-## Project Instructions and Rubric
+``` c++
+  d_error = cte - p_error;
+  p_error = cte;
+  i_error += cte;
+```
 
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
+``` c++
+  -Kp * p_error - Kd * d_error - Ki * i_error;
+```
 
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
+![alt text][image8]
 
-## Hints!
+1. P Component
 
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
+From the formula, we can found that the P component control how the Cross Track Error (CTE), i.e. how far from road middle, affect the steering angle. If we got larger Kp, the steering angle would be more affected by CTE. If the car is far away from middle, this would be helpful. Because it need more steering angle to adjust to return back to center. But if the car is close to the middle. larger Kp would let the car overshoot or oscillate more quickly. However, if Kp is too small, it would not sensitive to land curvature.
 
-## Call for IDE Profiles Pull Requests
+![alt text][image10]
 
-Help your fellow students!
+2. D Component
 
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
+Besides P component, we added one D, i.e. differential, part to the formula to let the steering angle more smooth. Consider the car gradually leaves the middle, the would cause a positive differential. So we would get more steering angle to return back to center. IF the car is gradually back to middle, we got negative differential, and smaller steering angle. Make sense. But if Kd too large, it would make the steering angle change too rough. However, if the Kd is too small it can't solve the overshoot problem.
 
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
+![alt text][image11]
 
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
+3. I Component
 
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
+In this portion, we add an I, i.e. integral, part to the equation. It looks like we compensate all previous error. If Ki is close to 1, the steering angle will sensitive to oscillation and can't go for high speed. If Ki close to 0, the car will tend to drift to one side of the lane for a long period of time.
 
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
+![alt text][image12]
 
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
+|              | P Controller               | PD Controller            | PID Controller         | Twiddle PID Controller          |
+|:------------:|:--------------------------:|:------------------------:|:----------------------:|:-------------------------------:|
+| effect       | marginally stable          | solve overshoot          | solve systematic bias  | parameters (P,I,D) optimization |
+| side effect  | overshoot, systematic bias | systematic bias          |                        |                                 |
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+![alt text][image9]
 
+### Describe how the final hyperparameters were chosen.
+
+The final hyperparameter were chosen as below. Manually tuned these parameters with the base values gotten from PID Control lesson. Followed the procedure from P to D then I to tune these parameters. During P parameter tuning, I set D and I as zero. During D tuning, fixed P and let I as zero. Finally during I tuning, fixed P and D. Because the values got from the lesson almost already workable. I haven't implemented Twiddle algorithm to find the optimized parameters. I found that the result run from Udacity workspace and Mac is a little different, so I made some modification on these hyperparameters.
+
+| coefficient | P        | I        | D        |
+|-------------|----------|----------|----------|
+| value       | 0.2      | 0.001    | 3        |
