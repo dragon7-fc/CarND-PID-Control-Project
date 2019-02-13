@@ -148,3 +148,8 @@ The final hyperparameter were chosen as below. Manually tuned these parameters w
 | coefficient | P        | I        | D        |
 |-------------|----------|----------|----------|
 | value       | 0.2      | 0.001    | 3        |
+
+---
+## Reference
+
+* [Controlling Self Driving Cars](https://www.youtube.com/watch?v=4Y7zG48uHRo&feature=youtu.be)
