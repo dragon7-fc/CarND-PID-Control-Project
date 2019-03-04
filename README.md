@@ -14,6 +14,7 @@
 [image10]: ./images/p.png "p"
 [image11]: ./images/pd.png "pd"
 [image12]: ./images/i.png "i"
+[image13]: ./images/result.gif "result"
 
 **PID Control Project**
 
@@ -148,6 +149,11 @@ The final hyperparameter were chosen as below. Manually tuned these parameters w
 | coefficient | P        | I        | D        |
 |-------------|----------|----------|----------|
 | value       | 0.2      | 0.001    | 3        |
+
+---
+## Result
+
+![alt text][image13]
 
 ---
 ## Reference
